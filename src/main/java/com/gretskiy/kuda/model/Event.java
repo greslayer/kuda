@@ -24,10 +24,9 @@ public class Event {
     )
     private Date publishDate;
 
-    @ElementCollection
     @Column(name = "dates")
-    @Temporal(TemporalType.DATE)
-    private Set<Date> dates;
+    @OneToMany
+    private Set<DateMargin> dates;
 
     @Column(name = "title")
     private String title;
