@@ -3,6 +3,7 @@ package com.gretskiy.kuda.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,8 +15,7 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity(name = "events")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Event {
@@ -34,9 +34,10 @@ public class Event {
     )
     private Date publishDate;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @Column(name = "dates")
+    @OneToMany(fetch = FetchType.LAZY)
+    @Column
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @JoinColumn(name = "id")
     private Set<DateMargin> dates;
     //TODO DateMargin.event = null
     //TODO возвращаются странные штампы
@@ -54,7 +55,7 @@ public class Event {
     @JsonIgnore
     private String place;
 
-    @Column(name = "description",length = 1000)
+    @Column(name = "description", length = 1000)
     private String description;
 
     @Column(name = "body_text")
@@ -84,7 +85,7 @@ public class Event {
     private boolean isFree;
 
     @Column(name = "images")
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "event")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Set<Image> images;
 

@@ -20,7 +20,9 @@ public class EventController {
     public ResponseEntity<Event> getEvent(@RequestParam Long id) {
         return ResponseEntity.ok(eventService.findById(id));
     }
+
     //TODO легально?, как передать в RestTemplate
+    //TODO Params отдельно по одному
     public ResponseEntity<Event> getEventWithParams(@RequestParam Set<String> params) {
         return ResponseEntity.ok(eventService.findWithParams(params));
     }

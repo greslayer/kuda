@@ -16,8 +16,9 @@ public class WebManagerImpl implements WebManager {
     private final EventRepository eventRepository;
     private final Logger logger = LoggerFactory.getLogger(WebManagerImpl.class);
     private final RestTemplate restTemplate = new RestTemplate();
+    //TODO что это?
 
-    public WebManagerImpl(WebClient webClient, EventRepository eventRepository) {
+    public WebManagerImpl(EventRepository eventRepository) {
         this.eventRepository = eventRepository;
     }
 
@@ -26,14 +27,14 @@ public class WebManagerImpl implements WebManager {
         logger.info("Requested from Kuda Go API Event with id = "+id);
         //TODO как закинуть в запрос
         Event event= restTemplate.getForObject("https://kudago.com/public-api/v1.4/events/{id}/",Event.class,id);
-        if (event==null){
-            logger.info("Didn't get an answer for id: "+id);
-            return new Event();
-        } else {
-            eventRepository.save(event);
-            return event;
-        }
-        //TODO .getforEntity и возвращать ResponseEntity?
-
+//        if (event==null){
+//            logger.info("Didn't get an answer for id: "+id);
+//            return new Event();
+//        } else {
+//            eventRepository.save(event);
+//            return event;
+//        }
+        return event;
+        //TODO .getforEntity и возвращать ResponseEntity? или optional?
     }
 }
