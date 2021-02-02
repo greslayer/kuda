@@ -1,8 +1,12 @@
 package com.gretskiy.kuda.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.sql.Clob;
@@ -13,10 +17,16 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Event {
-    @GeneratedValue
     @Id
+    @GeneratedValue
+    @JsonProperty(value = "databaseId")
     private long id;
+
+    @Column(name = "event_id")
+    @JsonProperty(value = "id")
+    private long eventId;
 
     @Column(name = "publication_date")
     @Temporal(
@@ -24,9 +34,12 @@ public class Event {
     )
     private Date publishDate;
 
+    @OneToMany(fetch = FetchType.EAGER)
     @Column(name = "dates")
-    @OneToMany
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Set<DateMargin> dates;
+    //TODO DateMargin.event = null
+    //TODO возвращаются странные штампы
 
     @Column(name = "title")
     private String title;
@@ -35,19 +48,21 @@ public class Event {
     private String shortTitle;
 
     @Column(name = "slug")
-    private String readableURL;
+    private String slug;
 
     @Column(name = "place")
+    @JsonIgnore
     private String place;
 
-    @Column(name = "description")
+    @Column(name = "description",length = 1000)
     private String description;
 
     @Column(name = "body_text")
     @Lob
-    private Clob fullDescription;
+    private String fullDescription;
 
     @Column(name = "location")
+    @JsonIgnore
     private String city;
 
     @ElementCollection
@@ -58,36 +73,35 @@ public class Event {
     private String tagLine;
 
     @Column(name = "age_restriction")
-    private int ageRestriction;
+    @JsonProperty(value = "age_restriction")
+    private String ageRestriction;
 
-    @Column
-    private long price;
+    @Column(name = "price")
+    private String price;
 
     @Column(name = "is_free")
+    @JsonProperty(value = "is_free")
     private boolean isFree;
 
     @Column(name = "images")
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Set<Image> images;
 
     @Column(name = "favorites_count")
+    @JsonProperty(value = "favorites_count")
     private long favoritesCount;
 
     @Column(name = "comments_count")
+    @JsonProperty(value = "comments_count")
     private long commentsCount;
 
     @Column(name = "site_url")
+    @JsonProperty(value = "site_url")
     private String siteURL;
 
     @Column(name = "tags")
     @ElementCollection
     private Set<String> tags;
-
-    @Column(name = "participants")
-    @OneToMany
-    private Set<Participant> participants;
-
-
-
 
 }

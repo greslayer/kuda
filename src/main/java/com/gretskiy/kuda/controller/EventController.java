@@ -1,26 +1,28 @@
 package com.gretskiy.kuda.controller;
 
 import com.gretskiy.kuda.model.Event;
-import com.gretskiy.kuda.repository.EventRepository;
-import com.gretskiy.kuda.service.EventDownloader;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.gretskiy.kuda.service.EventService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+import java.util.Set;
 
 @RestController
 public class EventController {
-    private final EventDownloader eventService;
+    private final EventService eventService;
 
-    public EventController(EventDownloader eventService) {
+    public EventController(EventService eventService) {
         this.eventService = eventService;
     }
-    @RequestMapping(value = "save")
-    public void saveEvent(@ModelAttribute Event event){
-        eventService.save(event);
+
+    @GetMapping(value = "get")
+    public ResponseEntity<Event> getEvent(@RequestParam Long id) {
+        return ResponseEntity.ok(eventService.findById(id));
     }
-    @RequestMapping(value = "get")
-    public Event getEvent(@RequestParam Long id){
-        return eventService.findById(id);
+    //TODO легально?, как передать в RestTemplate
+    public ResponseEntity<Event> getEventWithParams(@RequestParam Set<String> params) {
+        return ResponseEntity.ok(eventService.findWithParams(params));
     }
+
 }

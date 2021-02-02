@@ -5,4 +5,12 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD:admin}
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
+management:
+  endpoint:
+    httptrace:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: httptrace,info,health

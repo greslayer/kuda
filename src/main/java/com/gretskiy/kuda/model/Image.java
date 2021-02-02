@@ -1,5 +1,7 @@
 package com.gretskiy.kuda.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,12 +13,14 @@ import java.sql.Clob;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Image {
     @Id
+    @JsonIgnore
+    @GeneratedValue
     private Long id;
     @ManyToOne
     private Event event;
-    @Column(name = "image")
-    @Lob
-    private Clob image;
+    @Column(name = "image_url")
+    private String image;
 }
