@@ -2,7 +2,9 @@ package com.gretskiy.kuda.web;
 
 import com.gretskiy.kuda.model.Event;
 
+import java.util.Optional;
+
 
 public interface WebManager {
-    Event downloadAndSave(Long id);
+    Optional<Event> download(Long id,String fields);
 }

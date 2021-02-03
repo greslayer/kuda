@@ -24,6 +24,6 @@ public class DateMargin {
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "end_time")
     private Date end;
-    @ManyToOne
-    private Event event;
+//    @ManyToOne
+//    private Event event;
 }

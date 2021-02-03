@@ -34,10 +34,9 @@ public class Event {
     )
     private Date publishDate;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
     @Column
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    @JoinColumn(name = "id")
     private Set<DateMargin> dates;
     //TODO DateMargin.event = null
     //TODO возвращаются странные штампы
@@ -71,6 +70,7 @@ public class Event {
     private Set<String> categories;
 
     @Column(name = "tagline")
+    @JsonProperty(value = "tagline")
     private String tagLine;
 
     @Column(name = "age_restriction")

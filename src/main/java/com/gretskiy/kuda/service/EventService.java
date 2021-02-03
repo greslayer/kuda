@@ -3,11 +3,12 @@ package com.gretskiy.kuda.service;
 
 import com.gretskiy.kuda.model.Event;
 
+import java.util.Optional;
 import java.util.Set;
 
 public interface EventService {
     void save(Event event);
 
-    Event findById(Long id);
+    Optional<Event> findById(Long id,String fields);
     Event findWithParams(Set<String> params);
 }
